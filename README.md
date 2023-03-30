@@ -14,8 +14,8 @@ tanzukubernetescluster          29h
 ```
 
 - Edit the `custom-tanzukubernetescluster` clusterclass and modify chnages as needed. 
-    - Perform mandatory changes to enable psp
-    - Perform optional changes as needed
+    - Perform mandatory changes to enable psp (add kubectl patch for this)
+    - Perform optional changes as needed (add custom user changes here)
 
 - Modify the `resource.yaml`. (More validations/automation pending)
 
