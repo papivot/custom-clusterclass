@@ -4,7 +4,6 @@
 - Preferably create a new vSphere Namespace
 - Login to the Supervisor cluster using `kubectl vsphere login ...`
 - Make a copy of the default clusterclass `tanzukubernetescluster` and save it with a new name - e.g. `custom-tanzukubernetescluster`
-
 ```bash
 $ kubectl get clusterclass tanzukubernetescluster -n demo2 -o json | jq '.metadata.name = "custom-tanzukubernetescluster"'|kubectl create -f -
 $ kubectl get clusterclass -n demo2
@@ -29,6 +28,7 @@ $ kubectl apply -f res-final.yaml
 ```
 
 - Modify the `custom-classy.yaml` (More validations/automation pending)
+
 ```bash
 $ envsubst < custom-classy.yaml > custom-classy-final.yaml
 $ kubectl apply -f custom-classy-final.yaml
