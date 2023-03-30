@@ -1,8 +1,8 @@
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: Cluster
 metadata:
-  name: workload-vsphere-tkg4
-  namespace: demo2
+  name: ${CLUSTERNAME}
+  namespace: ${NAMESPACE}
 spec:
   clusterNetwork:
     services:
@@ -44,7 +44,6 @@ spec:
 #          metadata:
 #            annotations:
 #              run.tanzu.vmware.com/resolve-os-image: os-name=ubuntu
-
         - class: node-pool
           name: node-pool-3
           replicas: 0
@@ -77,20 +76,20 @@ spec:
           mountPath: "/var/lib/etcd"
           name: etcd
           storageClass: tanzu
-# Lines below Required for custom cluster class
+# Lines below REQUIRED for custom cluster class
       - name: ntp
         value: "time.vmware.com"
       - name: extensionCert
         value:
           contentSecret:
             key: tls.crt
-            name: workload-vsphere-tkg4-extensions-ca
+            name: ${CLUSTERNAME}-extensions-ca
       - name: clusterEncryptionConfigYaml
         value: LS0tCmFwaVZlcnNpb246IGFwaXNlcnZlci5jb25maWcuazhzLmlvL3YxCmtpbmQ6IEVuY3J5cHRpb25Db25maWd1cmF0aW9uCnJlc291cmNlczoKICAtIHJlc291cmNlczoKICAgIC0gc2VjcmV0cwogICAgcHJvdmlkZXJzOgogICAgLSBhZXNjYmM6CiAgICAgICAga2V5czoKICAgICAgICAtIG5hbWU6IGtleTEKICAgICAgICAgIHNlY3JldDogdUlkZWtJZTVKZk1qSmpPSWJxM004TnE3K29hcmtCZVF3YUQ5aGFwYnRBaz0KICAgIC0gaWRlbnRpdHk6IHt9Cg==
       - name: user
         value:
           passwordSecret:
             key: ssh-passwordkey
-            name: workload-vsphere-tkg4-ssh-password-hashed
+            name: ${CLUSTERNAME}-ssh-password-hashed
           sshAuthorizedKey: |
             ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC68ipWzsJ4U7im33PdKVUwnV8KJE89h9SnUqdTG+XvPRUqnED0yxeEUmjVR/Mg2AY9ZYlDQ0aHKozXqDnXWkH9Q3bqGD4BrUamrhMy9OqB6AfMHQgxZLBjPxRKxncil2ja6wSf7lwdekVIDAYmYjrqCkswC9LdX5df5frheddWN0I1yiDJyzkdc8sradsLPe9SR2mjnWDycB5S5aRejvO3L5QzUyBAftoZd4OqZ9pngSJ/ULgyLpSSWNPLv9oDa6+DlIzthif4vzLDTar6ky8OYS/SRG5kMbBYL+Re0NbumRUltLC9IR24aPdER0EeaoTIJCtz3smJCoSlGwSkp6vN1r3hsHZAeGR5u995NkP8q4r9yuONr5giqLFV2rhud15iE54FF7WHuj6bSwBQ0F3qfDirigVP1wsyX9Ztd2zIsnLoOwnlPus24XvnbVLAF+b1wR9YasK475alnBdrEuH1oAryNYf5bHRTVfD0QYNIpax/fHclB1HzNU8aPQdCS6WxztGaxsraaWHmxJZV2DooDxZ0fvdUKcWZAufuUD4zKuIIPRuQrHcmYMeKUx3mIH61D/EJWb11mkc2ChKmB7b8b/wBKNaP3Mrx0Bt+91a8LYHgtrMBp0JJUDjSZ338KTnNcJhi0TYHVU/APL9O+BDSg6UXn5vRZv3ey+lqJ+1S5w==
