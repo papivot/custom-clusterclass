@@ -1,3 +1,6 @@
+# This needs to be executed on the workload cluster that was created by the custom cluster class. 
+# This can also be placed within the new custom clusterclass to be executed as part of postKubeadmCommands
+---
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:

@@ -1,0 +1,23 @@
+---
+# Add entry for the psp.yaml in the valid section
+
+... 
+
+  - definitions:
+    - jsonPatches:
+      - op: add
+        path: /spec/template/spec/kubeadmConfigSpec/postKubeadmCommands
+        valueFrom:
+          template: |
+            - touch /root/kubeadm-complete
+            - vmware-rpctool 'info-set guestinfo.kubeadm.phase complete'
+            - vmware-rpctool 'info-set guestinfo.kubeadm.error ---'
+# Add this line in the controlPlanePostKubeadmCommandsSuccess section
+            - if [ -f /etc/kubernetes/extra-config/psp.yaml ]; then kubectl apply -f /etc/kubernetes/extra-config/psp.yaml --kubeconfig=/etc/kubernetes/admin.conf; fi
+      selector:
+        apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+        kind: KubeadmControlPlaneTemplate
+        matchResources:
+          controlPlane: true
+
+... 
