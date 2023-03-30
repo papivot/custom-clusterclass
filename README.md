@@ -1,4 +1,4 @@
-#Custom Clusterclass in vSphere with Tanzu 8.0
+# Custom Clusterclass in vSphere with Tanzu 8.0
 
 ### Step 1. 
 - Preferably create a new vSphere Namespace
