@@ -1,0 +1,91 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: self-signed-extensions-issuer
+  namespace: ${NAMESPACE}
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: ${CLUSTERNAME}-extensions-ca-issuer
+  namespace: ${NAMESPACE}
+spec:
+  ca:
+    secretName: ${CLUSTERNAME}-extensions-ca
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${CLUSTERNAME}-auth-svc-cert
+  namespace: ${NAMESPACE}
+spec:
+  commonName: authsvc
+  dnsNames:
+  - authsvc
+  - localhost
+  - 127.0.0.1
+  duration: 87600h0m0s
+  issuerRef:
+    kind: Issuer
+    name: ${CLUSTERNAME}-extensions-ca-issuer
+  secretName: ${CLUSTERNAME}-auth-svc-cert
+  usages:
+  - server auth
+  - digital signature
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${CLUSTERNAME}-extensions-ca
+  namespace: ${NAMESPACE}
+spec:
+  commonName: kubernetes-extensions
+  duration: 87600h0m0s
+  isCA: true
+  issuerRef:
+    kind: Issuer
+    name: self-signed-extensions-issuer
+  secretName: ${CLUSTERNAME}-extensions-ca
+  usages:
+  - digital signature
+  - cert sign
+  - crl sign
+---
+apiVersion: v1
+data:
+  key: ${B64ENCRYP}
+kind: Secret
+metadata:
+  name: ${CLUSTERNAME}-encryption
+  namespace: ${NAMESPACE}
+type: Opaque
+---
+apiVersion: v1
+data:
+  ssh-privatekey: ${B64SSHPRIVKEY}
+kind: Secret
+metadata:
+  name: ${CLUSTERNAME}-ssh
+  namespace: ${NAMESPACE}
+type: kubernetes.io/ssh-auth
+---
+apiVersion: v1
+data:
+  ssh-passwordkey: ${B64PASSWD}
+kind: Secret
+metadata:
+  name: ${CLUSTERNAME}-ssh-password
+  namespace: ${NAMESPACE}
+type: Opaque
+---
+apiVersion: v1
+data:
+  ssh-passwordkey: ${B64HPASSWD}
+kind: Secret
+metadata:
+  name: ${CLUSTERNAME}-ssh-password-hashed
+  namespace: ${NAMESPACE}
+type: Opaque

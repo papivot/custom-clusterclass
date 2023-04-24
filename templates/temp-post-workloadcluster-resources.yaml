@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+data:
+  values.yaml: ${B64AUTH}
+kind: Secret
+metadata:
+  labels:
+    tkg.tanzu.vmware.com/cluster-name: ${CLUSTERNAME}
+    tkg.tanzu.vmware.com/package-name: guest-cluster-auth-service.tanzu.vmware.com.1.0.0---tkg.2-zship
+  name: ${CLUSTERNAME}-guest-cluster-auth-service-data-values
+  namespace: ${NAMESPACE}
+type: Opaque
